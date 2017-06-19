@@ -1,12 +1,16 @@
-
+import os
 
 from telegram.ext import Updater, CommandHandler
+
 import logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.DEBUG)
 
+print(os.environ['TOKEN_FILE_NAME'])
+file = open('/store/' + os.environ['TOKEN_FILE_NAME'], 'r')
+token = file.read()
+file.close()
 
-# TODO: remove this token
-updater = Updater('383721901:AAG2BFw0AasmDuB4hP943pAYNp9ZV04fprI')
+updater = Updater(token)
 dispatcher = updater.dispatcher
 
 
