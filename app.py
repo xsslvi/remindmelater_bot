@@ -8,10 +8,9 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 print(os.environ['TOKEN_FILE_NAME'])
 file = open('/store/' + os.environ['TOKEN_FILE_NAME'], 'r')
 token = file.read()
-print(token)
 file.close()
 
-updater = Updater(token)
+updater = Updater(token.strip('\n'))
 dispatcher = updater.dispatcher
 
 
