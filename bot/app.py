@@ -5,7 +5,7 @@ from telegram.ext import Updater
 
 from handlers import test_handler, help_handler
 
-logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.DEBUG)
+logging.basicConfig(filename='/logs/bot.log', format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.DEBUG)
 
 file = open('/store/' + os.environ['TOKEN_FILE_NAME'], 'r')
 # FIXME: dirty hack

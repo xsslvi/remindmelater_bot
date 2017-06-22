@@ -4,6 +4,8 @@ FROM python:3.6.1-slim
 # File where token is stored
 ENV TOKEN_FILE_NAME secret.txt
 
+VOLUME /logs /store
+
 # Set the working directory to /app
 WORKDIR /app
 
