@@ -1,15 +1,17 @@
 from telegram.ext import CommandHandler
 
 
-def test_handler():
-    def test(bot, update):
+def test():
+    text = ""
+
+    def handle(bot, update):
         bot.send_message(chat_id=update.message.chat_id, text="It's running")
 
-    return CommandHandler('test', test)
+    return CommandHandler('test', handle)
 
 
-def help_handler():
-    def help(bot, update):
+def help():
+    def handle(bot, update):
         bot.send_message(chat_id=update.message.chat_id, text="I need somebody")
 
-    return CommandHandler('help', help)
+    return CommandHandler('help', handle)
