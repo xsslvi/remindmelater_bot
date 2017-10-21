@@ -3,7 +3,7 @@ import os
 
 from telegram.ext import Updater
 
-from handlers import test, help
+from handlers import test, help, error
 
 logging.basicConfig(filename='/logs/bot.log',
                     format='%(asctime)s - %(levelname)s - %(message)s',
@@ -23,6 +23,8 @@ def main():
 
     dispatcher.add_handler(test())
     dispatcher.add_handler(help())
+
+    dispatcher.add_error_handler(error)
 
     updater.start_polling()
 

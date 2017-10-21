@@ -1,4 +1,12 @@
+import logging
+
 from telegram.ext import CommandHandler
+
+logger = logging.getLogger(__name__)
+
+
+def error():
+    logger.error('Error "%s"' % error)
 
 
 def test():
