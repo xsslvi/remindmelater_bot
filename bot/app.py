@@ -2,31 +2,31 @@ import logging
 import os
 
 from telegram.ext import Updater
+from telegram.error import InvalidToken
 
 from handlers import test, help, error
 
-logging.basicConfig(filename='/logs/bot.log',
-                    format='%(asctime)s - %(levelname)s - %(message)s',
-                    level=logging.INFO)
+logging.basicConfig(format='%(asctime)s - %(levelname)s: %(message)s')
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('bot')
 
 
 def main():
-    file = open('/store/' + os.environ['TOKEN_FILE_NAME'], 'r')
-    # FIXME: dirty hack
-    token = file.read().strip('\n')
-    file.close()
+    try:
+        token = os.environ['TELEGRAM_API_TOKEN']
+        updater = Updater(token)
+        dispatcher = updater.dispatcher
 
-    updater = Updater(token)
-    dispatcher = updater.dispatcher
+        dispatcher.add_handler(test())
+        dispatcher.add_handler(help())
+        dispatcher.add_error_handler(error)
 
-    dispatcher.add_handler(test())
-    dispatcher.add_handler(help())
+        updater.start_polling()
+    except KeyError:
+        logger.error('TELEGRAM_API_TOKEN variable is not specified')
+    except InvalidToken:
+        logger.error('Invalid api token')
 
-    dispatcher.add_error_handler(error)
-
-    updater.start_polling()
 
 if __name__ == '__main__':
     main()
