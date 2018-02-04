@@ -1,27 +1,30 @@
-import logging
 import os
-
-from telegram.ext import Updater
+from datetime import datetime
+from logging import basicConfig, getLogger, StreamHandler, DEBUG, INFO
+from logging.handlers import TimedRotatingFileHandler
 from telegram.error import InvalidToken
 
-from handlers import test, help, error
+from bot import Bot
 
-logging.basicConfig(format='%(asctime)s - %(levelname)s: %(message)s')
+if os.environ['ENVIRONMENT'] == 'prod':
+    logger_handler = TimedRotatingFileHandler(datetime.now().strftime("%Y-%m-%d"), when="D")
+    level = INFO
+else:
+    logger_handler = StreamHandler()
+    level = DEBUG
 
-logger = logging.getLogger('bot')
+basicConfig(level=level, datefmt="%Y-%m-%d %H:%M:%S", format='%(asctime)s - %(levelname)s: %(message)s',
+            handlers=[logger_handler])
+
+logger = getLogger('bot')
 
 
 def main():
     try:
         token = os.environ['TELEGRAM_API_TOKEN']
-        updater = Updater(token)
-        dispatcher = updater.dispatcher
-
-        dispatcher.add_handler(test())
-        dispatcher.add_handler(help())
-        dispatcher.add_error_handler(error)
-
-        updater.start_polling()
+        bot = Bot(token)
+        bot.run()
+        logger.info('Bot is started')
     except KeyError:
         logger.error('TELEGRAM_API_TOKEN variable is not specified')
     except InvalidToken:
