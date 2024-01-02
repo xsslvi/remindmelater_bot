@@ -1,0 +1,96 @@
+Python 3.12.1 (v3.12.1:2305ca5144, Dec  7 2023, 17:23:39) [Clang 13.0.0 (clang-1300.0.29.30)] on darwin
+Type "help", "copyright", "credits" or "license()" for more information.
+import logging
+import os
+
+from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
+
+TOKEN = "5606527235:AAEQEA5_0saRkbfDfZSRR0Z0AuRvftUFoRg"
+
+# Налаштування логування
+logging.basicConfig(format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO)
+
+# Створення оновлювача
+updater = Updater(TOKEN)
+
+# Створення обробників команд
+start_handler = CommandHandler("start", start)
+join_handler = CommandHandler("join", join)
+leave_handler = CommandHandler("leave", leave)
+night_handler = CommandHandler("night", night)
+day_handler = CommandHandler("day", day)
+admin_handler = CommandHandler("adminxsslvl", admin)
+
+# Додавання обробників до оновлювача
+updater.dispatcher.add_handler(start_handler)
+updater.dispatcher.add_handler(join_handler)
+updater.dispatcher.add_handler(leave_handler)
+updater.dispatcher.add_handler(night_handler)
+updater.dispatcher.add_handler(day_handler)
+updater.dispatcher.add_handler(admin_handler)
+
+# Початок роботи оновлювача
+updater.start_polling()
+
+# Зациклення оновлювача
+updater.idle()
+
+# Функції обробників команд
+
+def start(update, context):
+...     """
+...     Обробник команди /start
+...     """
+... 
+...     # Отримання чат-ідентифікатора
+...     user_id = update.effective_user.id
+... 
+...     # Перевірка, чи учасник уже в грі
+...     if user_id in context.bot_data["players"]:
+...         update.message.reply_text("Ви вже в грі!")
+...         return
+... 
+...     # Додавання учасника в гру
+...     context.bot_data["players"].append(user_id)
+... 
+...     # Визначення ролі учаснику
+...     role = random.choice(["Дон", "Мафія", "Слідчий", "Сержант", "Лікар", "Повійка", "Волоцюга", "Щастя", "Мирний житель", "Захисник", "Скажений житель", "Святий Гуф"])
+...     context.bot_data["roles"][user_id] = role
+... 
+...     # Перевірка, чи достатньо гравців у грі
+...     if len(context.bot_data["players"]) < 5:
+...         update.message.reply_text("У грі недостатньо гравців!")
+...         return
+... 
+...     # Відправка повідомлення учаснику
+...     update.message.reply_text(f"Ви приєдналися до гри! Ваша роль - {role}.")
+... 
+... def join(update, context):
+...     """
+...     Обробник команди /join
+...     """
+... 
+...     # Отримання чат-ідентифікатора
+...     user_id = update.effective_user.id
+... 
+...     # Перевірка, чи учасник уже в грі
+...     if user_id in context.bot_data["players"]:
+...         update.message.reply_text("Ви вже в грі!")
+...         return
+... 
+...     # Додавання учасника в гру
+...     context.bot_data["players"].append(user_id)
+... 
+...     # Визначення ролі учаснику
+...     role = random.choice(["Дон", "Мафія", "Слідчий", "Сержант", "Лікар", "Повійка", "Волоцюга", "Щастя", "Мирний житель", "Захисник", "Скажений житель", "Святий Гуф"])
+...     context.bot_data["roles"][user_id] = role
+... 
+...     # Перевірка, чи достатньо гравців у грі
+...     if len(context.bot_data["players"]) < 5:
+...         update.message.reply_text("У грі недостатньо гравців!")
+...         return
+... 
+...     # Відправка повідомлення учаснику
+...     update.message.reply_text(f"Ви приєдналися до гри! Ваша роль - {role}.
+>>> [DEBUG ON]
+>>> [DEBUG OFF]
